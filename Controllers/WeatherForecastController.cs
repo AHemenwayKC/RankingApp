@@ -17,8 +17,8 @@ namespace RankingApp.Controllers
         {
             _logger = logger;
         }
-
-        [HttpGet]
+        
+        [HttpGet] // Pertains to an HTTP get request.
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
