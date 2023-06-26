@@ -1,5 +1,6 @@
 ﻿
-const RankingGrid = ({items, imgArr}) => {
+const RankingGrid = ({items, imgArr, drag, allowDrop, drop }) => {
+
     const rankingGrid = [];
     const cellCollectionTop = [];
     const cellCollectionMiddle = [];
@@ -9,7 +10,9 @@ const RankingGrid = ({items, imgArr}) => {
     function pushCellMarkupToArr(cellCollection, rankNum, rowLabel) {
         if (rankNum > 0) {
             var item = items.find(o => o.ranking === rankNum);
-            cellCollection.push(<div id={`rank-${rankNum}`} className= "rank-cell"></div>);
+            cellCollection.push(<div id={`rank-${rankNum}`} onDrop={drop} onDragOver={allowDrop} className="rank-cell">
+                {(item != null) ? <img id={`item-${item.id}`} src={imgArr.find(o => o.id === item.imageId)?.image} draggable="true" onDragStart={drag} /> : null}
+            </div>);
         }
         else {
             cellCollection.push(<div className="row-label">
@@ -24,7 +27,7 @@ const RankingGrid = ({items, imgArr}) => {
         const numCells = 5;
 
         for (var a = 1; a <= numCells; a++) {
-            rankNum = (a === 1) ? 0 : (numCells * (rowNum - 1) + a - rowNum);
+            rankNum = (a === 1) ? 0 : (numCells * (rowNum - 1)) + a - rowNum;
 
             if (rowNum === 1) {
                 currCollection = cellCollectionTop;
@@ -62,7 +65,7 @@ const RankingGrid = ({items, imgArr}) => {
     }
 
     function createRankingGrid() {
-        createRowsForGrid();
+        createCellsForRows();
 
         return createRowsForGrid();
     }
@@ -74,5 +77,4 @@ const RankingGrid = ({items, imgArr}) => {
     )
 
 }
-
 export default RankingGrid;
