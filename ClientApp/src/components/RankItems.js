@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import MovieImageArr from "./MovieImages.js";
+import MovieImageArr from "./MovieImages";
 import RankingGrid from "./RankingGrid";
 
 const RankItems = () => {
@@ -23,7 +23,8 @@ const RankItems = () => {
         }
         if (targetElm.childNodes.length === 0) {
             var data = parseInt(ev.dataTransfer.getData("text").substring(5));
-            const transformedCollection = items.map((item) => (item.id === parseInt(data)) ? {...item, ranking:parseInt(targetElm.id.substring(5)) } : {...item, ranking: item.ranking });
+            const transformedCollection = items.map((item) => (item.id === parseInt(data)) ?
+                { ...item, ranking: parseInt(targetElm.id.substring(5)) } : { ...item, ranking: item.ranking });
             setItems(transformedCollection);
         }
     }
@@ -44,9 +45,12 @@ const RankItems = () => {
             <div className="items-not-ranked"> {
 
                 (items.length > 0) ? items.map((item) =>
+                (item.ranking === 0) ?
                     <div className="unranked-cell">
-                        <img id={`item-${item.id}`} src={MovieImageArr.find(o => o.id === item.imageId)?.image} style={{ cursor: "pointer" }} draggable="true" onDragStart={drag} />
-                    </div>
+                        <img id={`item-${item.id}`} src={MovieImageArr.find(o => o.id === item.imageId)?.image}
+                            style={{ cursor: "pointer" }} draggable="true" onDragStart={drag}
+                        />
+                    </div> : null
 
                 ) : <div>Loading...</div>
             }
